@@ -293,32 +293,6 @@
       color: #e2e8f0;
     }
 
-    
-    .toast-bubble {
-      position: absolute;
-      pointer-events: none;
-      transform: translate(-50%, -100%);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: #ffffff;
-      background: rgba(16, 32, 22, 0.92);
-      backdrop-filter: blur(8px);
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid #4ade80;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      animation: float-up-fade 1.4s forwards cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 50;
-    }
-
-    @keyframes float-up-fade {
-      0% { opacity: 0; transform: translate(-50%, -20%) scale(0.6); }
-      20% { opacity: 1; transform: translate(-50%, -80%) scale(1.1); }
-      40% { transform: translate(-50%, -100%) scale(1); }
-      100% { opacity: 0; transform: translate(-50%, -180%) scale(0.9); }
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
@@ -351,8 +325,6 @@
     <header class="header-bar"></header>
     <footer class="bottom-bar"></footer>
   </div>
-
-  <div id="toast-container"></div>
 
   <script type="module">
     import * as THREE from 'three';
@@ -1676,25 +1648,6 @@
       if (se) se.textContent = emoji;
     }
 
-    function spawnHeartToast(customText) {
-      const catScreenPos = catMesh.position.clone();
-      catScreenPos.y += 1.4;
-      catScreenPos.project(camera);
-
-      const sx = (catScreenPos.x * 0.5 + 0.5) * window.innerWidth;
-      const sy = (-(catScreenPos.y * 0.5) + 0.5) * window.innerHeight;
-
-      const toast = document.createElement('div');
-      toast.className = 'toast-bubble';
-      const symbols = customText ? [customText] : ['🤍 *mrrp*', '✨ *purrr*', '🐾 Happy!', '🌟 *chirp*'];
-      toast.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      toast.style.left = `${sx}px`;
-      toast.style.top = `${sy}px`;
-
-      document.getElementById('toast-container').appendChild(toast);
-      setTimeout(() => toast.remove(), 1400);
-    }
-
     window.addEventListener('pointerdown', (e) => {
       if (e.target && e.target.closest && e.target.closest('.interactive')) return;
 
@@ -1896,7 +1849,6 @@
             catAI.isWalking = false;
             catAI.currentSpeed = 0;
             catAI.wanderTimer = 1.0;
-            spawnHeartToast('💤 *wanders off*');
             setCatStatus('Lost interest... wandering off to relax', '🐾');
           }
         } else {
